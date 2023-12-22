@@ -10,9 +10,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(
+  () => {
+    return import("react-quill");
+  },
+  { ssr: false }
+);
 type FormValues = {
   title: string;
   imgUrl: string;
@@ -120,7 +125,8 @@ const CreateBlog = () => {
           <div className="w-full px-8">
             <button
               type="submit"
-              className="text-white hover:bg-secondary hover:text-primary bg-primary font-bold rounded-lg w-full p-2"
+              disabled={isClicked}
+              className="text-white hover:bg-secondary disabled:bg-secondary hover:text-primary disabled:text-primary bg-primary font-bold rounded-lg w-full p-2"
             >
               Post
             </button>
