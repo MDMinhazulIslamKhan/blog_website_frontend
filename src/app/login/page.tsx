@@ -11,6 +11,8 @@ import { loginSchema } from "@/schemas/validationSchema";
 import FormInput from "@/components/layout/Forms/FormInput";
 import PassWordInput from "@/components/layout/Forms/PasswordInput";
 import { RouterProtector } from "@/helpers/routerProtectorWithRole";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/features/authSlice";
 
 type FormValues = {
   email: string;
@@ -18,6 +20,7 @@ type FormValues = {
 };
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [userLogin] = useUserLoginMutation(undefined);
 
@@ -27,7 +30,8 @@ const Login = () => {
       if (res?.data?.accessToken?.accessToken) {
         storeUserInfo({ accessToken: res?.data?.accessToken?.accessToken });
         window.alert("User logged in successfully!");
-        router.push("/");
+        dispatch(login());
+        router.back();
       } else {
         window.alert(res.message);
       }

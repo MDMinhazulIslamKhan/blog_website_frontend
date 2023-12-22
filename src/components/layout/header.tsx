@@ -2,19 +2,23 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { isLoggedIn, removeUserInfo } from "@/services/auth.service";
+import { removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/storageKey";
-import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const Header = () => {
   const router = useRouter();
-
-  const [toggle, setToggle] = useState(false);
-
-  const logout = () => {
+  const dispatch = useDispatch();
+  const { isLogin } = useAppSelector((state) => state.loginInfo);
+  const logoutUser = () => {
     removeUserInfo(authKey);
+    window.alert("Logout Successfully!!!");
+    dispatch(logout());
     router.push("/");
   };
+  const [toggle, setToggle] = useState(false);
 
   return (
     <nav className="bg-secondary sm:px-16 px-6 h-20 w-full flex items-center py-5 fixed top-0 z-10">
@@ -30,7 +34,7 @@ const Header = () => {
           </li>
           <li className="hover:text-white text-[18px] font-medium cursor-pointer text-primary">
             <p className="absolute">
-              {isLoggedIn() ? (
+              {isLogin ? (
                 <div className="relative">
                   <div
                     className="w-[28px] h-[28px] object-contain cursor-pointer"
@@ -84,7 +88,7 @@ const Header = () => {
                           My Profile
                         </Link>
                         <p
-                          onClick={() => 1}
+                          onClick={() => logoutUser()}
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           Logout
@@ -149,7 +153,7 @@ const Header = () => {
             >
               <Link href="/about">About Us</Link>
             </div>
-            {isLoggedIn() ? (
+            {isLogin ? (
               <>
                 <div
                   className="text-primary text-md font-medium  pl-5 w-full my cursor-pointer"
@@ -173,7 +177,7 @@ const Header = () => {
                     setToggle(!toggle);
                   }}
                 >
-                  <Link href="/about">Logout</Link>
+                  <p onClick={() => logoutUser()}>Logout</p>
                 </div>
               </>
             ) : (
