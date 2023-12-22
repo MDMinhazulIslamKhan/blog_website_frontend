@@ -21,7 +21,20 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.auth],
     }),
+    getMyProfile: build.query({
+      query: () => {
+        return {
+          url: `${AUTH_URL}/profile`,
+          method: "GET",
+        };
+      },
+      providesTags: [tagTypes.auth],
+    }),
   }),
 });
 
-export const { useUserLoginMutation, useUserRegistrationMutation } = authApi;
+export const {
+  useUserLoginMutation,
+  useUserRegistrationMutation,
+  useGetMyProfileQuery,
+} = authApi;

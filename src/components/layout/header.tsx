@@ -76,13 +76,13 @@ const Header = () => {
                     <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-secondary ring-1 ring-black ring-opacity-5">
                       <div className="py-1">
                         <Link
-                          href="/"
+                          href="/create-blog"
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           Create Blog
                         </Link>
                         <Link
-                          href="/"
+                          href="/profile"
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           My Profile
@@ -161,7 +161,7 @@ const Header = () => {
                     setToggle(!toggle);
                   }}
                 >
-                  <Link href="/about">Create Blog</Link>
+                  <Link href="/create-blog">Create Blog</Link>
                 </div>
                 <div
                   className="text-primary text-md font-medium  pl-5 w-full my cursor-pointer"
@@ -169,7 +169,7 @@ const Header = () => {
                     setToggle(!toggle);
                   }}
                 >
-                  <Link href="/about">My Profile</Link>
+                  <Link href="/profile">My Profile</Link>
                 </div>
                 <div
                   className="text-primary text-md font-medium  pl-5 w-full my cursor-pointer"
