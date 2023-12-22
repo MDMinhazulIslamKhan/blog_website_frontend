@@ -137,10 +137,10 @@ const CreateBlog = () => {
   );
 };
 
-const UpdatePasswordWithProtector = () => (
+const CreateBlogWithProtector = () => (
   <RouterProtector allowedRoles={["user"]}>
     <CreateBlog />
   </RouterProtector>
 );
 
-export default UpdatePasswordWithProtector;
+export default CreateBlogWithProtector;

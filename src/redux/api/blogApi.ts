@@ -13,7 +13,17 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.blog],
     }),
+    getAllBlogs: build.query({
+      query: (arg: Record<string, any>) => {
+        return {
+          url: `${BLOG_URL}`,
+          method: "GET",
+          params: arg,
+        };
+      },
+      providesTags: [tagTypes.blog],
+    }),
   }),
 });
 
-export const { useCreateBlogMutation } = blogApi;
+export const { useCreateBlogMutation, useGetAllBlogsQuery } = blogApi;
