@@ -77,18 +77,27 @@ const Header = () => {
                       <div className="py-1">
                         <Link
                           href="/create-blog"
+                          onClick={() => {
+                            setToggle(!toggle);
+                          }}
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           Create Blog
                         </Link>
                         <Link
+                          onClick={() => {
+                            setToggle(!toggle);
+                          }}
                           href="/profile"
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           My Profile
                         </Link>
                         <p
-                          onClick={() => logoutUser()}
+                          onClick={() => {
+                            setToggle(!toggle);
+                            logoutUser();
+                          }}
                           className="block px-4 py-2 text-sm text-primary hover:bg-gray-100"
                         >
                           Logout

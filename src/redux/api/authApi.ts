@@ -30,6 +30,21 @@ export const authApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.auth],
     }),
+    updatePassword: build.mutation({
+      query: (data) => ({
+        url: `${AUTH_URL}/change-password`,
+        method: "PATCH",
+        data: data,
+      }),
+    }),
+    updateProfile: build.mutation({
+      query: (data) => ({
+        url: `${AUTH_URL}/profile`,
+        method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.auth, tagTypes.blog],
+    }),
   }),
 });
 
@@ -37,4 +52,6 @@ export const {
   useUserLoginMutation,
   useUserRegistrationMutation,
   useGetMyProfileQuery,
+  useUpdatePasswordMutation,
+  useUpdateProfileMutation,
 } = authApi;

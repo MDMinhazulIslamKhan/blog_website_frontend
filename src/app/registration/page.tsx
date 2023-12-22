@@ -87,10 +87,10 @@ const Login = () => {
     </div>
   );
 };
-const LoginWithProtector = () => (
+const RegistrationWithProtector = () => (
   <RouterProtector allowedRoles={null}>
     <Login />
   </RouterProtector>
 );
 
-export default LoginWithProtector;
+export default RegistrationWithProtector;

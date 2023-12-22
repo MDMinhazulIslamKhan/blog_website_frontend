@@ -30,7 +30,7 @@ const FormInput = ({
 
   return (
     <>
-      <label className="label">
+      <label className="text-xs">
         <span className="label-text">
           {required ? <span className="text-red-500 inline">*</span> : null}
           {label ? label : null}

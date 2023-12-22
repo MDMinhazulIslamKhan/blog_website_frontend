@@ -13,9 +13,9 @@ const MyProfile = () => {
       <h1 className="text-primary mt-2 mb-5 font-bold text-3xl font-serif text-center pt-20">
         My Profile
         {isLoading && (
-          <div className="ml-5 inline-block">
+          <span className="ml-5 inline-block">
             <Loading />
-          </div>
+          </span>
         )}
       </h1>
       <div className="bg-white items-center font-semibold text-center p-10">
@@ -46,10 +46,10 @@ const MyProfile = () => {
   );
 };
 
-const LoginWithProtector = () => (
+const ProfileWithProtector = () => (
   <RouterProtector allowedRoles={["user"]}>
     <MyProfile />
   </RouterProtector>
 );
 
-export default LoginWithProtector;
+export default ProfileWithProtector;

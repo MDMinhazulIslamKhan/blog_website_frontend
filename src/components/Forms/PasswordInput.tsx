@@ -21,7 +21,7 @@ const PassWordInput = ({ name, placeholder, label, size }: IInput) => {
 
   return (
     <>
-      <label className="label">
+      <label className="text-xs w-full justify-between flex pr-2">
         <span className="label-text">
           <span className="text-red-500 inline">*</span>
           {label ? label : null}
