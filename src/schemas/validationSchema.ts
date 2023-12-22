@@ -20,3 +20,10 @@ export const passwordUpdateSchema = yup.object().shape({
   oldPassword: yup.string().min(3).max(15).required("Password is required"),
   newPassword: yup.string().min(3).max(15).required("Password is required"),
 });
+
+export const createBlogSchema = yup.object().shape({
+  title: yup.string().min(4).max(30).required("Title is required"),
+  imgUrl: yup.mixed().test("is-file", "Image is required", (value: any) => {
+    return value && value.length > 0;
+  }),
+});

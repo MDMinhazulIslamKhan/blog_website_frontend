@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Task Management | About",
+  title: "My Blog | About Us",
 };
 const About = () => {
   return (
