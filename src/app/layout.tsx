@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/lib/Providers";
-import Header from "@/componets/layout/header";
-import Footer from "@/componets/layout/footer";
+import Header from "@/components/layout/header";
 
 export const metadata: Metadata = {
   title: "My Blog",
@@ -19,8 +18,7 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <Header />
-          <div className="min-h-[90vh]">{children}</div>
-          <Footer />
+          <div className="min-h-[90vh] mt-20">{children}</div>
         </body>
       </html>
     </Providers>
