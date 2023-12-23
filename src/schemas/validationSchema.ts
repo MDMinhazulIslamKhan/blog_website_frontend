@@ -27,3 +27,7 @@ export const createBlogSchema = yup.object().shape({
     return value && value.length > 0;
   }),
 });
+
+export const updateBlogSchema = yup.object().shape({
+  title: yup.string().min(4).max(30).required("Title is required"),
+});

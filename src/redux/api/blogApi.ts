@@ -90,6 +90,21 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.blog],
     }),
+    updateBlog: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.id}`,
+        method: "PATCH",
+        data: data.data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    deleteBlog: build.mutation({
+      query: (id) => ({
+        url: `${BLOG_URL}/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
   }),
 });
 
@@ -105,4 +120,6 @@ export const {
   useDeleteReplyMutation,
   useUpdateCommentMutation,
   useUpdateReplyMutation,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
 } = blogApi;

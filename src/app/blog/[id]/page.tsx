@@ -6,6 +6,7 @@ import LikeSolid from "@/components/Icon/LikeSolid";
 import Loading from "@/components/Loading/Loading";
 import {
   useCommentOnBlogMutation,
+  useDeleteBlogMutation,
   useDeleteCommentMutation,
   useDeleteReplyMutation,
   useGetSingleBlogQuery,
@@ -22,6 +23,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import DeleteIcon from "@/components/Icon/DeleteIcon";
 import SettingIcon from "@/components/Icon/SettingIcon";
+import Link from "next/link";
 
 const BlogDetails = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -42,6 +44,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
   const [deleteReplyApi] = useDeleteReplyMutation(undefined);
   const [updateCommentApi] = useUpdateCommentMutation(undefined);
   const [updateReplyApi] = useUpdateReplyMutation(undefined);
+  const [deleteBlogApi] = useDeleteBlogMutation(undefined);
   const likePost = async () => {
     if (isLogin) {
       await likeBlog(data?.data?._id);
@@ -156,6 +159,17 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
       router.push("/login");
     }
   };
+
+  const deleteBlog = async () => {
+    if (isLogin) {
+      const res: any = await deleteBlogApi(data?.data?._id);
+      window.alert(res?.data?.message);
+      router.push("/");
+    } else {
+      window.alert("Please login...");
+      router.push("/login");
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -163,7 +177,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
           <Loading />
         </div>
       ) : (
-        <div>
+        <div className="pb-20">
           <div className="grid grid-cols-1 sm:grid-cols-3 sm:m-8 m-3">
             <div className="flex flex-col justify-center items-center">
               <Image
@@ -320,6 +334,22 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
+          {data?.data?.creatorId?._id == getUserInfo()?.id && (
+            <div className="w-full mx-auto items-center mt-20 flex justify-center">
+              <Link
+                href={`/update-blog/${data?.data?._id}`}
+                className="text-white hover:bg-secondary hover:text-primary bg-primary font-medium mx-5 rounded-lg block px-3 py-1"
+              >
+                Update Blog
+              </Link>
+              <button
+                className="text-white hover:bg-secondary hover:text-primary bg-primary font-medium mx-5 rounded-lg block px-3 py-1"
+                onClick={() => deleteBlog()}
+              >
+                Delete Blog
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
