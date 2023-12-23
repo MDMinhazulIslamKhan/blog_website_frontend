@@ -23,7 +23,34 @@ export const blogApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.blog],
     }),
+    getSingleBlog: build.query({
+      query: (id: string) => ({
+        url: `${BLOG_URL}/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.blog],
+    }),
+    likeBlog: build.mutation({
+      query: (id) => ({
+        url: `${BLOG_URL}/like/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    removeLikeBlog: build.mutation({
+      query: (id) => ({
+        url: `${BLOG_URL}/remove-like/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
   }),
 });
 
-export const { useCreateBlogMutation, useGetAllBlogsQuery } = blogApi;
+export const {
+  useCreateBlogMutation,
+  useGetAllBlogsQuery,
+  useGetSingleBlogQuery,
+  useLikeBlogMutation,
+  useRemoveLikeBlogMutation,
+} = blogApi;
