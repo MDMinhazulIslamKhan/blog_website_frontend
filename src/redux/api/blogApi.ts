@@ -44,6 +44,22 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.blog],
     }),
+    commentOnBlog: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.id}/comment`,
+        method: "POST",
+        data: data.data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    replayOnComment: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.blogId}/comment/${data.commentId}/replay`,
+        method: "POST",
+        data: data.data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
   }),
 });
 
@@ -53,4 +69,6 @@ export const {
   useGetSingleBlogQuery,
   useLikeBlogMutation,
   useRemoveLikeBlogMutation,
+  useCommentOnBlogMutation,
+  useReplayOnCommentMutation,
 } = blogApi;

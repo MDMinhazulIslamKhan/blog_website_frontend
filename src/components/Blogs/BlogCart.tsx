@@ -48,18 +48,26 @@ const BlogCart = ({ blog }: { blog: any }) => {
       </figure>
       <div className="flex justify-between px-5">
         <small className="text-start block"># {blog?.creatorId?.name}</small>
-        <div className="text-primary hover:text-green-500">
+        <div className="text-primary cursor-pointer">
           {checkLike ? (
-            <div className="inline" onClick={() => removeLikePost()}>
+            <div
+              className="inline hover:text-green-500"
+              onClick={() => removeLikePost()}
+            >
               <LikeSolid />
+              {"  "}
+              <small className="inline-block">{blog?.likes?.length} </small>
             </div>
           ) : (
-            <div className="inline" onClick={() => likePost()}>
+            <div
+              className="inline hover:text-green-500"
+              onClick={() => likePost()}
+            >
               <LikeOutline />
+              {"  "}
+              <small className="inline-block">{blog?.likes?.length} </small>
             </div>
           )}
-          {"  "}
-          <small className="inline-block">{blog?.likes?.length} </small>
         </div>
       </div>
       <h2 className="font-bold text-xl my-5 text-center text-primary">
