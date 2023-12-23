@@ -60,6 +60,36 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.blog],
     }),
+    deleteComment: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.blogId}/comment/${data.commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    deleteReply: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.blogId}/comment/${data.commentId}/replay/${data.replayId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    updateComment: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.blogId}/comment/${data.commentId}`,
+        method: "PATCH",
+        data: data.data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
+    updateReply: build.mutation({
+      query: (data) => ({
+        url: `${BLOG_URL}/${data.blogId}/comment/${data.commentId}/replay/${data.replayId}`,
+        method: "PATCH",
+        data: data.data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
   }),
 });
 
@@ -71,4 +101,8 @@ export const {
   useRemoveLikeBlogMutation,
   useCommentOnBlogMutation,
   useReplayOnCommentMutation,
+  useDeleteCommentMutation,
+  useDeleteReplyMutation,
+  useUpdateCommentMutation,
+  useUpdateReplyMutation,
 } = blogApi;

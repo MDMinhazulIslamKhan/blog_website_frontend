@@ -6,16 +6,22 @@ import LikeSolid from "@/components/Icon/LikeSolid";
 import Loading from "@/components/Loading/Loading";
 import {
   useCommentOnBlogMutation,
+  useDeleteCommentMutation,
+  useDeleteReplyMutation,
   useGetSingleBlogQuery,
   useLikeBlogMutation,
   useRemoveLikeBlogMutation,
   useReplayOnCommentMutation,
+  useUpdateCommentMutation,
+  useUpdateReplyMutation,
 } from "@/redux/api/blogApi";
 import { useAppSelector } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import DeleteIcon from "@/components/Icon/DeleteIcon";
+import SettingIcon from "@/components/Icon/SettingIcon";
 
 const BlogDetails = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -32,6 +38,10 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
   const [removeLikeBlog] = useRemoveLikeBlogMutation(undefined);
   const [commentOnBlog] = useCommentOnBlogMutation(undefined);
   const [replayOnComment] = useReplayOnCommentMutation(undefined);
+  const [deleteCommentApi] = useDeleteCommentMutation(undefined);
+  const [deleteReplyApi] = useDeleteReplyMutation(undefined);
+  const [updateCommentApi] = useUpdateCommentMutation(undefined);
+  const [updateReplyApi] = useUpdateReplyMutation(undefined);
   const likePost = async () => {
     if (isLogin) {
       await likeBlog(data?.data?._id);
@@ -40,6 +50,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
       router.push("/login");
     }
   };
+
   const removeLikePost = async () => {
     if (isLogin) {
       await removeLikeBlog(data?.data?._id);
@@ -48,6 +59,65 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
       router.push("/login");
     }
   };
+
+  const updateComment = async (commentId: string) => {
+    const text = window.prompt("Your Updated Comment...");
+    if (isLogin) {
+      const res: any = await updateCommentApi({
+        blogId: data?.data?._id,
+        commentId: commentId,
+        data: { text: text },
+      });
+      window.alert(res?.data?.message);
+    } else {
+      window.alert("Please login...");
+      router.push("/login");
+    }
+  };
+
+  const updateReply = async (commentId: string, replayId: string) => {
+    const text = window.prompt("Your Updated Replay...");
+    if (isLogin) {
+      const res: any = await updateReplyApi({
+        blogId: data?.data?._id,
+        commentId: commentId,
+        replayId: replayId,
+        data: { text: text },
+      });
+      window.alert(res?.data?.message);
+    } else {
+      window.alert("Please login...");
+      router.push("/login");
+    }
+  };
+
+  const deleteComment = async (commentId: string) => {
+    if (isLogin) {
+      const res: any = await deleteCommentApi({
+        blogId: data?.data?._id,
+        commentId: commentId,
+      });
+      window.alert(res?.data?.message);
+    } else {
+      window.alert("Please login...");
+      router.push("/login");
+    }
+  };
+
+  const deleteReply = async (commentId: string, replayId: string) => {
+    if (isLogin) {
+      const res: any = await deleteReplyApi({
+        blogId: data?.data?._id,
+        commentId: commentId,
+        replayId: replayId,
+      });
+      window.alert(res?.data?.message);
+    } else {
+      window.alert("Please login...");
+      router.push("/login");
+    }
+  };
+
   const submitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
@@ -150,13 +220,17 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
               <h2 className="font-bold text-lg underline text-primary mb-2">
                 Comment
               </h2>
-              <form onSubmit={(e) => submitComment(e)} className="flex">
-                <div className="w-full max-w-xs h-8 mb-1">
+              <form
+                onSubmit={(e) => submitComment(e)}
+                className="flex items-center"
+              >
+                <div className="w-full max-w-xs h-12 mb-1">
                   <input
                     type="text"
                     name="text"
+                    placeholder="Add a comment"
                     required
-                    className="bg-gray-50 border pl-2 border-primary rounded-lg block w-full"
+                    className="bg-gray-50 border pl-2 py-3 border-primary rounded-lg block w-full"
                   />
                 </div>
                 <div className="ml-2">
@@ -174,6 +248,22 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
                     <p key={index} className="text-md">
                       {comment?.user?.name} :
                       <span className="text-primary"> {comment.text} </span>
+                      {comment.user._id == getUserInfo()?.id && (
+                        <>
+                          <div
+                            className="hover:text-primary inline-block text-black cursor-pointer mr-1"
+                            onClick={() => updateComment(comment._id)}
+                          >
+                            <SettingIcon />
+                          </div>
+                          <div
+                            className="hover:text-primary inline-block text-black cursor-pointer"
+                            onClick={() => deleteComment(comment._id)}
+                          >
+                            <DeleteIcon />
+                          </div>
+                        </>
+                      )}
                     </p>
                     <form
                       onSubmit={(e) => submitReplay(e, comment._id)}
@@ -184,6 +274,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
                           type="text"
                           name="text"
                           required
+                          placeholder="Add Reply"
                           className="bg-gray-50 border pl-2 border-primary rounded-lg block w-full"
                         />
                       </div>
@@ -200,7 +291,27 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
                       {comment?.replies?.map((reply: any, index: number) => (
                         <p key={index} className="text-sm mb-2">
                           {reply?.user?.name} :
-                          <span className="text-primary"> {reply.text} </span>
+                          <span className="text-primary"> {reply.text} </span>{" "}
+                          {reply.user._id == getUserInfo()?.id && (
+                            <>
+                              <div
+                                className="hover:text-primary inline-block text-black cursor-pointer mr-1"
+                                onClick={() =>
+                                  updateReply(comment._id, reply._id)
+                                }
+                              >
+                                <SettingIcon />
+                              </div>
+                              <div
+                                className="hover:text-primary inline-block text-black cursor-pointer"
+                                onClick={() =>
+                                  deleteReply(comment._id, reply._id)
+                                }
+                              >
+                                <DeleteIcon />
+                              </div>
+                            </>
+                          )}
                         </p>
                       ))}
                     </div>
